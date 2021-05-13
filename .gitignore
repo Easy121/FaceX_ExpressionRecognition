@@ -7,6 +7,10 @@
 *.o
 *.so
 
+# Large picture file #
+######################
+*.gif
+
 # Large data files #
 ####################
 data/Abstract_NPZ/
