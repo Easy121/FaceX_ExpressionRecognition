@@ -90,6 +90,6 @@ class Visualizer:
     def visualizer_stroke_gif(self):
         """可视化笔触，并生成gif动图"""
         ani = FuncAnimation(self.fig, self.update_stroke, frames=len(self.stroke_data_raw),
-                            init_func=self.init_stroke, blit=False)
+                            init_func=self.init_stroke, interval=50, blit=False)
         # plt.show()
-        ani.save("test.gif", writer='pillow')
+        ani.save("figure/test.gif", writer='pillow', )

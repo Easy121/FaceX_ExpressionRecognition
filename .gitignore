@@ -9,7 +9,7 @@
 
 # Large picture file #
 ######################
-*.gif
+#*.gif
 
 # Large data files #
 ####################
