@@ -1,8 +1,6 @@
-import numpy as np
-
 from utility.utility import *
 import matplotlib.pyplot as plt
-from matplotlib.animation import ArtistAnimation, FuncAnimation, PillowWriter
+from matplotlib.animation import ArtistAnimation
 
 
 class Visualizer:
@@ -34,15 +32,14 @@ class Visualizer:
         """可视化笔触"""
         # 设置绘图范围
         plot_range = get_plot_range(self.stroke_data)
-        self.ax.set_xlim(plot_range[0, :])
-        self.ax.set_ylim(plot_range[1, :])
+        self.ax.set_xlim(plot_range[0])
+        self.ax.set_ylim(plot_range[1])
         # 关闭坐标轴显示
         self.ax.xaxis.set_ticks([])
         self.ax.yaxis.set_ticks([])
 
         for count, data in enumerate(self.stroke_data_sequential):
             for k in range(len(data[0])):
-                im = []
                 for i in range(count):
                     self.ax.plot(self.stroke_data_sequential[i][0],
                                  self.stroke_data_sequential[i][1],
@@ -57,8 +54,8 @@ class Visualizer:
         """可视化笔触，并生成gif动图"""
         # 设置绘图范围
         plot_range = get_plot_range(self.stroke_data)
-        self.ax.set_xlim(plot_range[0, :])
-        self.ax.set_ylim(plot_range[1, :])
+        self.ax.set_xlim(plot_range[0])
+        self.ax.set_ylim(plot_range[1])
         # 关闭坐标轴显示
         self.ax.xaxis.set_ticks([])
         self.ax.yaxis.set_ticks([])
@@ -75,6 +72,6 @@ class Visualizer:
                 self.ims.append(im)
                 plt.pause(0.01)  # 暂停
 
-        ani = ArtistAnimation(self.fig, self.ims, interval=40, repeat=True, blit=True)
+        ani = ArtistAnimation(self.fig, self.ims, interval=50, repeat_delay=500, repeat=True, blit=True)
         ani.save(filename="figure/test.gif", writer='pillow')
         plt.show()

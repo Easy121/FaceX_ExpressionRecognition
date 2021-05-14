@@ -24,7 +24,7 @@ def get_plot_range(data):
         x_max = x_mid + plot_range / 2
         x_min = x_mid - plot_range / 2
 
-    return np.array([[x_min, x_max], [y_min, y_max]])
+    return [[x_min, x_max], [y_min, y_max]]
 
 
 class Demo:
