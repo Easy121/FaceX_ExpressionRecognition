@@ -2,7 +2,10 @@ from utility.visualizer import *
 from utility.kmean import *
 from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
+import datetime
 
+
+start_time = datetime.datetime.now()
 
 # 情感类别定义
 emotions_list = {1: 'angry', 2: 'disgusted', 3: 'fearful', 4: 'happy', 5: 'sad', 6: 'surprised'}
@@ -20,10 +23,9 @@ for i in range(1, len(emotions_list) + 1):
     data = np.random.choice(data, emotions_num)
     for datum in data:
         # 得到去除画笔移动向量的其余向量
-        vis = Visualizer(datum)
-        datum = vis.stroke_data_local
+        datum = get_stroke_data_local(datum)
         # 由于样本特征长度不同，先用Kmeans进行聚类
-        datum = Kmeans(10).fit(datum, visualization=None).center
+        datum = Kmeans(30).fit(datum, visualization=None).center
         # append
         emotions_samples = np.append(emotions_samples, datum)
 
@@ -33,7 +35,7 @@ emotions_samples = emotions_samples.reshape(emotions_num*len(emotions_list), -1)
 X_train, X_test, y_train, y_test = train_test_split(emotions_samples, emotions_category,
                                                     test_size=0.2, random_state=2021)
 
-model = SVC(kernel='rbf').fit(X_train, y_train)
+model = SVC(C=1, kernel='rbf').fit(X_train, y_train)
 print('train_accuracy =', model.score(X_train, y_train))
 print('predict_accuracy =', model.score(X_test, y_test))
 
@@ -42,3 +44,6 @@ print('predict_accuracy =', model.score(X_test, y_test))
 # vis.xy_plotter()
 # vis.visualizer_stroke()
 # vis.visualizer_stroke_gif()
+
+end_time = datetime.datetime.now()
+print('time_taken = ', (end_time - start_time).seconds, 's')

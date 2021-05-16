@@ -17,17 +17,6 @@ class Kmeans:
         # 存放聚类样本子集的字典
         self.center_data = dict()
 
-    @staticmethod
-    def distance(u, v):
-        """ 样本距离的定义
-
-        Parameters
-        ----------
-        u,v: 一维 numpy 数组表示的特征向量
-        """
-        # 返回欧氏距离的平方
-        return sum((u - v) ** 2)
-
     def center_init(self, data):
         """ 初始化聚类中心
 
@@ -38,10 +27,29 @@ class Kmeans:
         data: 存放样本特征向量的 numpy array
         """
         np.random.seed(2021)
-        # 随机选择 k 个样本特征向量的索引
-        index = np.random.choice(a=range(data.shape[0]), size=self.k)
-        # 根据索引获得 k 个聚类中心
-        return data[index]
+        # 用来保存聚类中心
+        center = []
+        # 随机选择一个样本特征向量的索引
+        index = np.random.choice(range(len(data)))
+        # 根据索引获得第一个聚类中心
+        center.append(data[index])
+        # 获取剩余 k-1 个聚类中心
+        for _ in range(self.k - 1):
+            # 样本被选为聚类中心的概率
+            prob = []
+            # 遍历每个样本数据
+            for x in data:
+                # 根据步骤 2 的公式计算样本与最近类中心的距离
+                d = np.min([np.linalg.norm(x - c) for c in center])
+                prob.append(d)
+            # 计算每个样本的被选概率
+            prob = np.array(prob) / np.sum(prob)
+            # 根据被选中的概率随机选择一个样本特征向量的索引
+            i = np.random.choice(a=range(len(data)), p=prob)
+            # 根据索引添加一个聚类中心
+            center.append(data[i])
+        # 返回 k 个初始化的聚类中心
+        return np.array(center)
 
     def predict(self, x):
         """ 获取样本 x 的聚类索引
@@ -53,7 +61,7 @@ class Kmeans:
         # 输入的样本 x 必须为一维数组，否则触发异常
         assert np.array(x).ndim == 1
         # 返回距离样本 x 最近的聚类中心索引
-        return np.argmin([self.distance(x, c) for c in self.center])
+        return np.argmin([np.linalg.norm(x - c) for c in self.center])
 
     def cluster(self, data):
         """ 获取聚类中心对应的样本子集
@@ -79,7 +87,7 @@ class Kmeans:
         # 设置画布大小
         plt.figure(figsize=(8, 6))
         # 设置可选颜色：红、绿、蓝
-        color = ['r', 'g', 'b']
+        # color = ['r', 'g', 'b']
         # 遍历每个聚类中心的索引
         for i in self.center_data:
             # 根据索引，取该聚类中心对应的样本第一列特征
@@ -155,7 +163,7 @@ class Kmeans:
                 # 更新每一个聚类中心：样本子集特征向量的均值
                 self.center[i] = np.mean(self.center_data[i], axis=0)
             # 循环迭代的停止条件：最近两次迭代，聚类中心的位置不再变化
-            if sum([self.distance(self.center[i], old_center[i]) for i in range(self.k)]) == 0:
+            if sum([np.linalg.norm(self.center[i] - old_center[i]) for i in range(self.k)]) == 0:
                 break
 
         return self
