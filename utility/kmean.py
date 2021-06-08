@@ -112,7 +112,7 @@ class Kmeans:
         # 设置画布大小
         plt.figure(figsize=(10, 8))
         # 设置可选颜色：红、绿、蓝
-        color = ['r', 'g', 'b']
+        # color = ['r', 'g', 'b']
         # 创建三维空间直角坐标系
         ax = plt.axes(projection='3d')
         # 遍历每个聚类中心的索引
@@ -124,11 +124,11 @@ class Kmeans:
             # 根据索引，取该聚类中心对应的样本第三列特征
             z = np.array(self.center_data[i])[:, 2]
             # 绘制当前聚类的样本散点图，s 控制大小，c 控制颜色
-            ax.scatter3D(x, y, z, s=30, c=color[i])
+            ax.scatter3D(x, y, z, s=30, c='black')
         # 遍历每个聚类中心 c 和对应的索引 i
         for i, c in enumerate(self.center):
             # 在三维空间中绘制当前聚类中心，alpha 控制透明度
-            ax.scatter3D(xs=c[0], ys=c[1], zs=c[2], s=200, c=color[i], alpha=0.2)
+            ax.scatter3D(xs=c[0], ys=c[1], zs=c[2], s=200, c='black', alpha=0.2)
         # 显示图片
         plt.show()
 

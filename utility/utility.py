@@ -41,3 +41,19 @@ def get_stroke_data_local(data):
         if item[2] == 1:
             flag = 1
     return stroke_data_local.reshape(-1, 2)
+
+
+def homogenize(data, weight_direction=1, weight_sequence=1):
+    # b = np.empty([0, 0])
+    # for col in range(data.shape[1]):
+    #     b = np.append(b, data[:, col] / np.max(data[:, col]))
+    # return b.reshape(-1, 2, order='F')
+    sequence = data[:, 0] / np.max(data[:, 0])
+    data = data[:, 1:]
+    return np.hstack((sequence.reshape(-1, 1)*weight_sequence,
+                      data / np.sqrt(np.max(np.square(data[:, 0]) + np.square(data[:, 1])))*weight_direction))
+
+
+def add_sequence_info(data):
+    """加上绘画顺序的考量，进行三维聚类"""
+    return np.hstack((np.arange(0, data.shape[0], 1).reshape(-1, 1), data))
