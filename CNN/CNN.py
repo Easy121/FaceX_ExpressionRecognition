@@ -57,6 +57,7 @@ print(len(np.load(path,encoding='bytes',allow_pickle=True)))
 data.append(np.load(path,encoding='bytes',allow_pickle=True)[0:data_len])
 random.shuffle(data[len(data)-1])
 """
+"""
 def fig2data(fig):
     import PIL.Image as Image
     fig.canvas.draw()
@@ -109,7 +110,7 @@ def draw_sketch(label,u):
                 img[i][j]=255
     
     return img
-
+"""
 # 验证模型在数据集上的正确率
 def validate(model,dataset,batch_size):
     val_loader=torch_data.DataLoader(
@@ -324,8 +325,8 @@ if IFPRE:
     pre_process(0,4859);
     print("PRE_PROCESS FIN!");
 
-train_dataset=FaceDataset(0,3401)
-test_dataset=FaceDataset(3402,4859)
+train_dataset=FaceDataset(0,10)
+test_dataset=FaceDataset(11,15)
 
 if IFTRAIN:
     model=train(train_dataset,test_dataset,batch_size=128,epochs=7,LR=0.1)
