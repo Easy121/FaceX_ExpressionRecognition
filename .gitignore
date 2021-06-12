@@ -13,8 +13,10 @@
 
 # Large data files #
 ####################
-data/Abstract_NPZ/
-data/Abstract_NPZ/*
+K_Means_SVM/data/Abstract_NPZ/
+K_Means_SVM/data/Abstract_NPZ/*
+K_Means_SVM/utility/__pycache__/
+K_Means_SVM/utility/__pycache__/*
 
 # Editor generated #
 ####################
